@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import page_head with context %}
+{% block title %}{{ t('account') }}{% endblock %}
+{% block body %}
+{{ page_head(t('account'), me.email) }}
+<div class="wrap sec">
+  <div class="cart-layout">
+    <div>
+      <h3>{{ t('my_orders') }}</h3>
+      {% for o in orders %}
+      <a class="order-row" href="{{ url_for('shop.order', code=o.code) }}">
+        <b>{{ o.code }}</b><span class="muted small">{{ o.created|fdate }}</span>
+        <span class="st st-{{ o.status }}">{{ o.status }}</span><b>{{ money(o.total, o.currency) }}</b>
+      </a>
+      {% else %}<p class="muted">—</p>{% endfor %}
+    </div>
+    <form method="post" class="form-card">
+      <input type="hidden" name="_csrf" value="{{ csrf() }}">
+      <label>{{ t('name') }}<input name="name" value="{{ me.name }}"></label>
+      <label>{{ t('phone') }}<input name="phone" value="{{ me.phone }}"></label>
+      <label>{{ t('email') }}<input value="{{ me.email }}" disabled></label>
+      <button class="btn">{{ t('save') }}</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

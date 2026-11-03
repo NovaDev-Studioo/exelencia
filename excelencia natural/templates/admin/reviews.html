@@ -1,0 +1,11 @@
+{% extends 'admin/base.html' %}
+{% block h1 %}Reseñas{% endblock %}
+{% block body %}
+<table class="tbl">
+  <tr><th>Producto</th><th>Cliente</th><th>Estrellas</th><th>Comentario</th><th>Visible</th><th></th></tr>
+  {% for r in rows %}<tr class="{{ 'off' if not r.visible }}"><td>{{ r.pname }}</td><td>{{ r.uname }}</td><td>{{ r.stars }}</td><td>{{ r.body }}</td>
+    <td><form method="post" action="{{ url_for('admin.review_act', rid=r.id, act='ver') }}"><input type="hidden" name="_csrf" value="{{ csrf() }}"><button class="sw {{ 'on' if r.visible }}">{{ 'Sí' if r.visible else 'No' }}</button></form></td>
+    <td><form method="post" action="{{ url_for('admin.review_act', rid=r.id, act='borrar') }}" onsubmit="return confirm('¿Borrar?')"><input type="hidden" name="_csrf" value="{{ csrf() }}"><button class="btn btn-sm btn-danger">Borrar</button></form></td></tr>
+  {% else %}<tr><td colspan="6" class="muted">Sin reseñas.</td></tr>{% endfor %}
+</table>
+{% endblock %}

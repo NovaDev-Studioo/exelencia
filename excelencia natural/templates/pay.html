@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import page_head with context %}
+{% block title %}{{ t('pay') }} {{ o.code }}{% endblock %}
+{% block body %}
+{{ page_head(t('pay') ~ ' · ' ~ o.code) }}
+<div class="wrap sec narrow">
+  <div class="form-card">
+    {% for i in items %}<div class="row small"><span>{{ i.qty }} × {{ i.name }}</span><span>{{ money(i.price * i.qty, o.currency) }}</span></div>{% endfor %}
+    <hr>
+    <div class="row"><span>{{ t('subtotal') }}</span><b>{{ money(o.subtotal, o.currency) }}</b></div>
+    {% if o.discount %}<div class="row ok"><span>{{ t('discount') }}</span><b>− {{ money(o.discount, o.currency) }}</b></div>{% endif %}
+    <div class="row"><span>{{ t('shipping') }}</span><b>{{ money(o.shipping, o.currency) if o.shipping else t('free') }}</b></div>
+    <div class="row total"><span>{{ t('total') }}</span><b>{{ money(o.total, o.currency) }}</b></div>
+    <p class="muted small">{{ o.zone }}{% if o.delivery == 'envio' %} · {{ o.addr }}, {{ o.city }}, {{ o.state }}{% endif %}</p>
+    <hr>
+    {% if pp_id %}
+      <p class="muted">{{ t('pay_with') }}</p>
+      <div id="paypal-btn" data-code="{{ o.code }}"></div>
+      <p id="pp-err" class="err"></p>
+    {% else %}
+      <p class="demo-note">{{ icon('alert', 20) }}<span>{{ t('pay_demo') }}</span></p>
+      <form method="post" action="{{ url_for('pay.pay_demo', code=o.code) }}">
+        <input type="hidden" name="_csrf" value="{{ csrf() }}"><button class="btn btn-lg block">{{ t('simulate') }}</button>
+      </form>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+{% block js %}
+{% if pp_id %}
+<script src="https://www.paypal.com/sdk/js?client-id={{ pp_id }}&currency={{ o.currency }}"></script>
+<script src="{{ url_for('static', filename='js/paypal.js') }}"></script>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,71 @@
+# textos del sitio publico en espanol
+T = {
+ 'es': {
+  'home': 'Inicio', 'shop': 'Catálogo', 'about': 'Quiénes somos', 'contact': 'Contacto', 'faq': 'Preguntas frecuentes',
+  'blog': 'Publicaciones', 'cart': 'Carrito', 'login': 'Iniciar sesión', 'register': 'Crear cuenta', 'logout': 'Salir',
+  'account': 'Mi cuenta', 'wishlist': 'Favoritos', 'search': 'Buscar productos…', 'all': 'Todas',
+  'featured': 'Productos destacados', 'see_all': 'Ver todo el catálogo', 'add': 'Agregar al carrito',
+  'out': 'Agotado', 'stock': 'disponibles', 'price': 'Precio', 'sort': 'Ordenar', 'newest': 'Más nuevos',
+  'low': 'Precio: menor a mayor', 'high': 'Precio: mayor a menor', 'category': 'Categoría', 'filter': 'Filtrar',
+  'min': 'Mín', 'max': 'Máx', 'none': 'No encontramos productos con esos filtros.',
+  'wholesale': 'Mayoreo', 'ws_from': 'Mayoreo desde {n} pzas a', 'ws_applied': 'Precio de mayoreo aplicado',
+  'reviews': 'Reseñas', 'write_review': 'Deja tu reseña', 'stars': 'Calificación', 'send': 'Enviar',
+  'login_to_review': 'Inicia sesión para dejar una reseña.', 'no_reviews': 'Aún no hay reseñas.',
+  'cart_empty': 'Tu carrito está vacío.', 'qty': 'Cantidad', 'subtotal': 'Subtotal', 'discount': 'Descuento',
+  'shipping': 'Envío', 'total': 'Total', 'checkout': 'Finalizar compra', 'coupon': 'Código de descuento',
+  'apply': 'Aplicar', 'remove': 'Quitar', 'free': 'Gratis', 'gift': 'Regalo',
+  'delivery': 'Entrega', 'ship_home': 'Envío a domicilio', 'pickup': 'Recoger en tienda (gratis)',
+  'name': 'Nombre completo', 'phone': 'Teléfono / WhatsApp', 'email': 'Correo', 'address': 'Calle y número',
+  'city': 'Ciudad', 'state': 'Estado', 'zip': 'C.P.', 'country': 'País', 'notes': 'Notas del pedido (opcional)',
+  'pay': 'Pagar', 'pay_with': 'Paga de forma segura con PayPal', 'order': 'Pedido', 'my_orders': 'Mis pedidos',
+  'status': 'Estado', 'tracking': 'Guía de rastreo', 'date': 'Fecha', 'password': 'Contraseña',
+  'have_acc': '¿Ya tienes cuenta?', 'no_acc': '¿Aún no tienes cuenta?', 'or': 'o',
+  'with_google': 'Continuar con Google', 'with_fb': 'Continuar con Facebook',
+  'hero_t': 'Bienestar natural, hecho simple', 'hero_s': 'Productos naturistas seleccionados con cariño desde Puebla, México.',
+  'hero_b': 'Explorar catálogo', 'why1': 'Calidad natural', 'why1d': 'Selección cuidadosa de productos naturistas.',
+  'why2': 'Envíos a todo México', 'why2d': 'Y también al extranjero. Recoge gratis en tienda.',
+  'why3': 'Atención cercana', 'why3d': 'Resolvemos tus dudas por WhatsApp.',
+  'latest': 'Lo último en Excelencia Natural', 'read_more': 'Leer más', 'like': 'Me gusta',
+  'msg': 'Mensaje', 'visit': 'Visítanos', 'hours': 'Horario', 'write_us': 'Escríbenos',
+  'sent_ok': '¡Mensaje enviado! Te responderemos pronto.', 'terms': 'Términos y condiciones',
+  'privacy': 'Aviso de privacidad', 'returns': 'Política de devoluciones', 'follow': 'Síguenos',
+  'disclaimer': 'Estos productos no son medicamentos y no sustituyen un tratamiento médico. Consulta a tu médico ante cualquier duda.',
+  'save': 'Guardar', 'added': 'Agregado al carrito', 'currency': 'Moneda', 'in_stock': 'En existencia',
+  'pay_demo': 'Modo demostración: PayPal aún no está configurado. Este botón simula el pago.',
+  'simulate': 'Simular pago', 'paid_ok': '¡Pago recibido! Gracias por tu compra.', 'pending_pay': 'Pendiente de pago',
+  'back': 'Volver', 'details': 'Ver detalle', 'free_ship_from': 'Envío gratis desde', 'est': 'Entrega estimada',
+  'accept_terms': 'Acepto los términos y condiciones y el aviso de privacidad',
+ },
+}
+
+FAQ = {
+ 'es': [
+  ('¿Cómo compro?', 'Crea tu cuenta, agrega productos al carrito, elige envío o recolección y paga con PayPal.'),
+  ('¿Hacen envíos al extranjero?', 'Sí. Al elegir tu país, el sistema calcula el costo de envío internacional.'),
+  ('¿Puedo recoger mi pedido en la tienda?', 'Sí, sin costo. Estamos en Av 14 Pte 717, San Pablo de los Frailes, Puebla.'),
+  ('¿Venden al mayoreo?', 'Sí. Los productos con precio de mayoreo lo aplican automáticamente al llegar a la cantidad mínima indicada.'),
+  ('¿Cómo uso un código de descuento?', 'En el carrito escribe tu código y pulsa Aplicar. Algunos códigos regalan un producto.'),
+  ('¿Cuánto tarda mi pedido?', 'Preparamos tu pedido en 1 a 2 días hábiles. La entrega depende de tu zona y se muestra al pagar.'),
+  ('¿Cómo sé en qué va mi pedido?', 'Te avisamos por WhatsApp y correo en cada cambio de estado, y lo ves en Mi cuenta.'),
+  ('¿Los productos son medicamentos?', 'No. Son productos naturistas y no sustituyen un tratamiento médico.'),
+ ],
+}
+
+
+# ---- textos extra del rediseno ----
+T['es'].update({
+    'hero_b2': 'Precios de mayoreo', 'secure': 'Pago seguro', 'secure_d': 'Pagos protegidos con PayPal.',
+    'why4': 'Marca de confianza', 'why4d': 'Un negocio local con atención personal.',
+    'cats_t': 'Explora por categoría', 'n_prods': '{n} productos', 'ws_t': '¿Compras en cantidad?',
+    'ws_d': 'Muchos de nuestros productos tienen precio especial de mayoreo. Se aplica automáticamente en tu carrito.',
+    'ws_b': 'Ver productos con mayoreo', 'how_t': 'Comprar es muy fácil', 'how_s': 'En cuatro pasos tu pedido va en camino.',
+    'h1': 'Elige', 'h1d': 'Explora el catálogo y agrega tus favoritos.', 'h2': 'Crea tu cuenta', 'h2d': 'Directo o con Google, en un minuto.',
+    'h3': 'Paga seguro', 'h3d': 'Con PayPal en pesos o dólares.', 'h4': 'Recibe o recoge', 'h4d': 'Te enviamos o pasas por tu pedido.',
+    'rev_t': 'Lo que dicen nuestros clientes', 'visit_t': 'Ven a conocernos', 'visit_d': 'Tenemos tienda física en Puebla. Te asesoramos con gusto.',
+    'dir': 'Cómo llegar', 'only_ws': 'Solo productos con mayoreo', 'results': '{n} resultados', 'ask_wa': 'Preguntar por WhatsApp',
+    'free_left': 'Te faltan {m} para tener envío gratis', 'free_ok': '¡Tienes envío gratis!', 'ship_t': 'Envíos a todo México y el mundo',
+    'ret_t': 'Cambios por producto dañado', 'feat_tag': 'Destacado', 'shop_sub': 'Encuentra lo que tu cuerpo agradece.',
+    'blog_sub': 'Novedades, consejos y promociones de la tienda.', 'about_sub': 'Naturaleza con atención personal.',
+    'st_pendiente': 'Pendiente', 'st_pagado': 'Pagado', 'st_preparando': 'Preparando', 'st_enviado': 'Enviado', 'st_entregado': 'Entregado',
+    'related': 'También te puede gustar', 'items': 'artículos', 'follow_us': 'Síguenos y entérate de las novedades',
+})

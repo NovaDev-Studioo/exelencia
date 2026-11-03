@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Panel{% endblock %} · Excelencia Natural Admin</title>
+  <link rel="icon" href="{{ url_for('static', filename='img/Logo.png') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="adm" data-csrf="{{ csrf() }}">
+<aside class="side">
+  <a class="brand" href="{{ url_for('admin.dashboard') }}"><img src="{{ url_for('static', filename='img/Logo.png') }}" alt=""></a>
+  {% set ep = request.endpoint %}
+  {% set grp = {'admin.orders':['admin.order'], 'admin.products':['admin.product_form'], 'admin.settings_page':[]} %}
+  {% for e, ic, n in [('admin.dashboard','chart','Resumen'),('admin.orders','package','Pedidos'),('admin.products','leaf','Productos'),('admin.categories','tag','Categorías'),('admin.coupons','ticket','Cupones'),('admin.zones','truck','Envíos'),('admin.posts','megaphone','Publicaciones'),('admin.reviews','star','Reseñas'),('admin.messages','mail','Mensajes'),('admin.staff','users','Personal'),('admin.settings_page','settings','Ajustes'),('admin.help','help','Ayuda')] %}
+    <a href="{{ url_for(e) }}" class="{{ 'on' if ep == e or ep in grp.get(e, []) }}">{{ icon(ic, 18) }} {{ n }}</a>
+  {% endfor %}
+  <hr>
+  <a href="{{ url_for('shop.index') }}" target="_blank">{{ icon('store', 18) }} Ver tienda</a>
+  <a href="{{ url_for('admin.my_account') }}">{{ icon('key', 18) }} Mi cuenta</a>
+  <a href="{{ url_for('auth.logout') }}">{{ icon('logout', 18) }} Salir</a>
+</aside>
+<section class="adm-main">
+  <div class="toasts" id="toasts">{% for c, m in get_flashed_messages(with_categories=true) %}<div class="toast {{ c }}">{{ icon('alert' if c == 'warn' else 'check', 18) }}<span>{{ m }}</span></div>{% endfor %}</div>
+  <h1 class="page-t">{% block h1 %}{% endblock %}</h1>
+  {% block body %}{% endblock %}
+</section>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

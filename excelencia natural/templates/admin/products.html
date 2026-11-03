@@ -1,0 +1,23 @@
+{% extends 'admin/base.html' %}
+{% block h1 %}Productos{% endblock %}
+{% block body %}
+<div class="bar">
+  <form class="search" method="get"><input name="q" placeholder="Buscar producto…" value="{{ s }}"><button aria-label="buscar">{{ icon('search', 18) }}</button></form>
+  <a class="btn" href="{{ url_for('admin.product_form') }}">{{ icon('plus', 16) }} Nuevo producto</a>
+</div>
+<table class="tbl">
+  <tr><th></th><th>Nombre</th><th>Categoría</th><th>Precio</th><th>Mayoreo</th><th>Stock</th><th>Visible</th><th></th></tr>
+  {% for p in rows %}
+  <tr class="{{ 'off' if not p.active }}">
+    <td>{% set im = img_of(p.id) %}{% if im %}<img class="mini" src="{{ url_for('static', filename='uploads/' ~ im) }}" alt="">{% else %}{{ icon('leaf', 22) }}{% endif %}</td>
+    <td><a href="{{ url_for('admin.product_form', pid=p.id) }}"><b>{{ p.name }}</b></a>{% if p.featured %} {{ icon('star', 14) }}{% endif %}</td>
+    <td>{{ p.cat or '—' }}</td>
+    <td>$ {{ '{:,.2f}'.format(p.price_mxn) }}</td>
+    <td>{% if p.ws_min %}{{ p.ws_min }}+ a $ {{ '{:,.2f}'.format(p.ws_mxn) }}{% else %}—{% endif %}</td>
+    <td class="{{ 'red' if p.stock < 1 }}">{{ p.stock }}</td>
+    <td><form method="post" action="{{ url_for('admin.product_toggle', pid=p.id) }}"><input type="hidden" name="_csrf" value="{{ csrf() }}"><button class="sw {{ 'on' if p.active }}">{{ 'Sí' if p.active else 'No' }}</button></form></td>
+    <td><a class="btn btn-sm btn-ghost" href="{{ url_for('admin.product_form', pid=p.id) }}">Editar</a></td>
+  </tr>
+  {% else %}<tr><td colspan="8" class="muted">No hay productos.</td></tr>{% endfor %}
+</table>
+{% endblock %}

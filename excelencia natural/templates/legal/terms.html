@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import page_head with context %}
+{% block title %}{{ t('terms') }}{% endblock %}
+{% block body %}
+{{ page_head(t('terms')) }}
+<div class="wrap sec narrow legal">
+  
+  <p class="muted small">Última actualización: texto base. Se recomienda revisarlo con un asesor legal.</p>
+  <h3>1. Quiénes somos</h3><p>{{ S.store_name }} ({{ S.address }}) opera esta tienda en línea de productos naturistas.</p>
+  <h3>2. Uso del sitio y cuenta</h3><p>Para comprar necesitas crear una cuenta con datos verdaderos. Eres responsable de mantener segura tu contraseña.</p>
+  <h3>3. Productos</h3><p>Los productos son naturistas y suplementos; no son medicamentos y no sustituyen un tratamiento médico. Las imágenes son ilustrativas. Consulta a tu médico antes de consumirlos si estás embarazada, en lactancia, bajo tratamiento o tienes alguna condición de salud.</p>
+  <h3>4. Precios y pagos</h3><p>Los precios se muestran en pesos mexicanos (MXN) o dólares (USD) y pueden cambiar sin previo aviso. El pago se procesa de forma segura a través de PayPal; {{ S.store_name }} no almacena datos de tu tarjeta.</p>
+  <h3>5. Mayoreo, cupones y regalos</h3><p>El precio de mayoreo se aplica automáticamente al alcanzar la cantidad mínima de cada producto. Los códigos de descuento o de producto gratis tienen vigencia y usos limitados, y no son acumulables ni canjeables por dinero.</p>
+  <h3>6. Envíos</h3><p>Enviamos dentro de México y al extranjero. El costo se calcula por zona y los tiempos son estimados; no dependemos de la paquetería para retrasos fuera de nuestro control. Los pedidos del extranjero pueden generar impuestos o aranceles a cargo del comprador. También puedes recoger gratis en tienda.</p>
+  <h3>7. Devoluciones</h3><p>Consulta nuestra <a href="{{ url_for('shop.returns') }}">política de devoluciones</a>.</p>
+  <h3>8. Contacto</h3><p>Escríbenos por WhatsApp al {{ S.whatsapp }} o desde la página de contacto.</p>
+</div>
+{% endblock %}

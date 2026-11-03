@@ -1,0 +1,11 @@
+{% extends 'admin/base.html' %}
+{% block h1 %}Personal{% endblock %}
+{% block body %}
+<form method="post" class="form-card inline-f">
+  <input type="hidden" name="_csrf" value="{{ csrf() }}">
+  <label>Nombre<input name="name" required></label><label>Correo<input type="email" name="email" required></label>
+  <label>Contraseña<input type="password" name="password" minlength="6" required></label><button class="btn">Agregar</button>
+</form>
+<table class="tbl"><tr><th>Nombre</th><th>Correo</th><th></th></tr>
+{% for r in rows %}<tr><td>{{ r.name }}</td><td>{{ r.email }}</td><td>{% if r.id != me.id %}<form method="post" action="{{ url_for('admin.staff_del', uid=r.id) }}" onsubmit="return confirm('¿Quitar acceso?')"><input type="hidden" name="_csrf" value="{{ csrf() }}"><button class="btn btn-sm btn-danger">Quitar</button></form>{% else %}(tú){% endif %}</td></tr>{% endfor %}</table>
+{% endblock %}

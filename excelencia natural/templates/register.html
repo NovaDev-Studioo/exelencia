@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}{{ t('register') }}{% endblock %}
+{% block body %}
+<div class="wrap sec narrow-s">
+  <form method="post" class="form-card auth">
+    <img class="logo-top" src="{{ url_for('static', filename='img/Logo.png') }}" alt="">
+    <h1 class="center">{{ t('register') }}</h1>
+    <input type="hidden" name="_csrf" value="{{ csrf() }}">
+    <label>{{ t('name') }}<input name="name" required autofocus></label>
+    <label>{{ t('email') }}<input type="email" name="email" required></label>
+    <label>{{ t('phone') }}<input name="phone"></label>
+    <label>{{ t('password') }}<input type="password" name="password" minlength="6" required></label>
+    <button class="btn btn-lg block">{{ t('register') }}</button>
+    {% if oauth_on.google or oauth_on.facebook %}<div class="or">{{ t('or') }}</div>{% endif %}
+    {% if oauth_on.google %}<a class="btn btn-ghost block" href="{{ url_for('auth.oauth_start', prov='google') }}">{{ icon('globe', 18) }} {{ t('with_google') }}</a>{% endif %}
+    {% if oauth_on.facebook %}<a class="btn btn-ghost block" href="{{ url_for('auth.oauth_start', prov='facebook') }}">{{ icon('users', 18) }} {{ t('with_fb') }}</a>{% endif %}
+    <p class="muted center">{{ t('have_acc') }} <a href="{{ url_for('auth.login') }}">{{ t('login') }}</a></p>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'admin/base.html' %}
+{% block h1 %}Resumen{% endblock %}
+{% block body %}
+<div class="stats">
+  <a class="stat" href="{{ url_for('admin.orders', st='pagado') }}">{{ icon('package', 22) }}<b>{{ st.nuevos }}</b><span>Pedidos pagados por atender</span></a>
+  <a class="stat" href="{{ url_for('admin.orders', st='pendiente') }}">{{ icon('clock', 22) }}<b>{{ st.pend }}</b><span>Pendientes de pago</span></a>
+  <div class="stat">{{ icon('card', 22) }}<b>$ {{ '{:,.0f}'.format(st.ventas) }}</b><span>Ventas MXN{% if st.ventas_usd %} · US$ {{ '{:,.0f}'.format(st.ventas_usd) }}{% endif %}</span></div>
+  <a class="stat" href="{{ url_for('admin.messages') }}">{{ icon('mail', 22) }}<b>{{ st.msgs }}</b><span>Mensajes nuevos</span></a>
+  <a class="stat" href="{{ url_for('admin.products') }}">{{ icon('leaf', 22) }}<b>{{ st.prods }}</b><span>Productos activos</span></a>
+</div>
+<div class="two-col">
+  <div class="form-card"><h3>Últimos pedidos</h3>
+    {% for o in last %}<a class="order-row" href="{{ url_for('admin.order', oid=o.id) }}"><b>{{ o.code }}</b><span>{{ o.name }}</span><span class="st st-{{ o.status }}">{{ o.status }}</span><b>{{ money(o.total, o.currency) }}</b></a>{% else %}<p class="muted">Aún no hay pedidos.</p>{% endfor %}
+  </div>
+  <div class="form-card"><h3 class="row-i">{{ icon('alert', 20) }} Poco inventario</h3>
+    {% for p in low %}<a class="order-row" href="{{ url_for('admin.product_form', pid=p.id) }}"><span>{{ p.name }}</span><b class="{{ 'red' if p.stock < 1 }}">{{ p.stock }} pzas</b></a>{% else %}<p class="muted">Todo en orden.</p>{% endfor %}
+  </div>
+</div>
+<p><a class="btn" href="{{ url_for('admin.product_form') }}">{{ icon('plus', 16) }} Nuevo producto</a> <a class="btn btn-ghost" href="{{ url_for('admin.posts') }}">{{ icon('plus', 16) }} Nueva publicación</a></p>
+{% endblock %}

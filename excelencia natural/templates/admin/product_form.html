@@ -1,0 +1,39 @@
+{% extends 'admin/base.html' %}
+{% block h1 %}{{ 'Editar producto' if p else 'Nuevo producto' }}{% endblock %}
+{% block body %}
+<form method="post" enctype="multipart/form-data" class="form-card wide">
+  <input type="hidden" name="_csrf" value="{{ csrf() }}">
+  <h3>1. Lo básico</h3>
+  <div class="fields">
+    <label class="full">Nombre<input name="name" value="{{ p.name if p }}" required></label>
+    <label class="full">Descripción<textarea name="descr" rows="4">{{ p.descr if p }}</textarea></label>
+    <label>Categoría
+      <select name="cat_id"><option value="">Sin categoría</option>{% for c in cats %}<option value="{{ c.id }}" {{ 'selected' if p and p.cat_id == c.id }}>{{ c.name }}</option>{% endfor %}</select>
+    </label>
+    <label>Piezas en inventario<input type="number" name="stock" min="0" value="{{ p.stock if p else 0 }}"></label>
+  </div>
+  <h3>2. Precios</h3>
+  <div class="fields">
+    <label>Precio en pesos (MXN)<input type="number" step="0.01" min="0" name="price_mxn" value="{{ p.price_mxn if p else '' }}" required></label>
+    <label>Precio en dólares (USD) <small>(0 = automático)</small><input type="number" step="0.01" min="0" name="price_usd" value="{{ p.price_usd if p else 0 }}"></label>
+  </div>
+  <h3>3. Mayoreo <small>(déjalo en 0 si no aplica)</small></h3>
+  <div class="fields three">
+    <label>Desde cuántas piezas<input type="number" min="0" name="ws_min" value="{{ p.ws_min if p else 0 }}"></label>
+    <label>Precio mayoreo MXN<input type="number" step="0.01" min="0" name="ws_mxn" value="{{ p.ws_mxn if p else 0 }}"></label>
+    <label>Precio mayoreo USD<input type="number" step="0.01" min="0" name="ws_usd" value="{{ p.ws_usd if p else 0 }}"></label>
+  </div>
+  <h3>4. Fotos</h3>
+  {% if imgs %}<div class="imgs">{% for i in imgs %}
+    <div class="img-it"><img src="{{ url_for('static', filename='uploads/' ~ i.file) }}" alt="">
+      <button class="x" type="submit" formaction="{{ url_for('admin.img_del', pid=p.id, iid=i.id) }}" formnovalidate onclick="return confirm('¿Quitar esta foto?')">{{ icon('x', 14) }}</button></div>
+  {% endfor %}</div>{% endif %}
+  <label>Agregar fotos <small>(puedes elegir varias; la primera es la principal)</small><input type="file" name="imgs" accept="image/*" multiple></label>
+  <h3>5. Opciones</h3>
+  <label class="chk"><input type="checkbox" name="active" {{ 'checked' if not p or p.active }}> Visible en la tienda</label>
+  <label class="chk"><input type="checkbox" name="featured" {{ 'checked' if p and p.featured }}> Destacado en la página de inicio</label>
+  <div class="bar"><button class="btn btn-lg">Guardar producto</button>
+    {% if p %}<button class="btn btn-danger" formaction="{{ url_for('admin.product_del', pid=p.id) }}" formnovalidate onclick="return confirm('¿Eliminar este producto para siempre?')">Eliminar</button>{% endif %}
+    <a class="btn btn-ghost" href="{{ url_for('admin.products') }}">Volver</a></div>
+</form>
+{% endblock %}

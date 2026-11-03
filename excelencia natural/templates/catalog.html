@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import card, page_head with context %}
+{% block title %}{{ t('shop') }}{% endblock %}
+{% block body %}
+{{ page_head(t('shop'), t('shop_sub')) }}
+<div class="wrap sec">
+  <div class="chips-row">
+    <a class="cat-chip {{ 'on' if not f.cat }}" href="{{ url_for('shop.catalog') }}">{{ icon('leaf', 15) }} {{ t('all') }}</a>
+    {% for c in cats %}<a class="cat-chip {{ 'on' if f.cat == c.id }}" href="{{ url_for('shop.catalog', cat=c.id) }}">{{ icon(c.icon, 15) }} {{ c.name_en if lang=='en' and c.name_en else c.name }}</a>{% endfor %}
+  </div>
+  <div class="cat-layout">
+    <form class="filters" method="get">
+      <h3>{{ t('filter') }}</h3>
+      <input type="hidden" name="q" value="{{ f.q }}">
+      <label>{{ t('category') }}
+        <select name="cat">
+          <option value="">{{ t('all') }}</option>
+          {% for c in cats %}<option value="{{ c.id }}" {{ 'selected' if f.cat == c.id }}>{{ c.name_en if lang=='en' and c.name_en else c.name }}</option>{% endfor %}
+        </select>
+      </label>
+      <label>{{ t('price') }} ({{ cur }})
+        <div class="two"><input type="number" step="any" min="0" name="min" placeholder="{{ t('min') }}" value="{{ f.min if f.min is not none }}">
+        <input type="number" step="any" min="0" name="max" placeholder="{{ t('max') }}" value="{{ f.max if f.max is not none }}"></div>
+      </label>
+      <label>{{ t('sort') }}
+        <select name="sort">
+          <option value="new" {{ 'selected' if f.sort=='new' }}>{{ t('newest') }}</option>
+          <option value="low" {{ 'selected' if f.sort=='low' }}>{{ t('low') }}</option>
+          <option value="high" {{ 'selected' if f.sort=='high' }}>{{ t('high') }}</option>
+        </select>
+      </label>
+      <label class="chk"><input type="checkbox" name="ws" value="1" {{ 'checked' if f.ws }}> {{ t('only_ws') }}</label>
+      <button class="btn">{{ icon('search', 16) }} {{ t('filter') }}</button>
+    </form>
+    <div>
+      <p class="muted">{{ t('results', n=prods|length) }}{% if f.q %} · “{{ f.q }}”{% endif %}</p>
+      <div class="grid">{% for p in prods %}{{ card(p) }}{% else %}<p class="muted">{{ t('none') }}</p>{% endfor %}</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

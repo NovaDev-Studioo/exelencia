@@ -1,0 +1,15 @@
+{% extends 'admin/base.html' %}
+{% block h1 %}Pedidos{% endblock %}
+{% block body %}
+<div class="bar chips">
+  <a class="cat-chip {{ 'on' if not st }}" href="{{ url_for('admin.orders') }}">Todos</a>
+  {% for s in statuses %}<a class="cat-chip {{ 'on' if st == s }}" href="{{ url_for('admin.orders', st=s) }}">{{ s }}</a>{% endfor %}
+</div>
+<table class="tbl">
+  <tr><th>Pedido</th><th>Fecha</th><th>Cliente</th><th>Entrega</th><th>Estado</th><th>Total</th></tr>
+  {% for o in rows %}<tr onclick="location='{{ url_for('admin.order', oid=o.id) }}'" class="click">
+    <td><b>{{ o.code }}</b></td><td>{{ o.created|fdate }}</td><td>{{ o.name }}</td><td>{{ o.zone }}</td>
+    <td><span class="st st-{{ o.status }}">{{ o.status }}</span></td><td>{{ money(o.total, o.currency) }}</td></tr>
+  {% else %}<tr><td colspan="6" class="muted">No hay pedidos.</td></tr>{% endfor %}
+</table>
+{% endblock %}

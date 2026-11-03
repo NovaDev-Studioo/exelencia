@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import page_head, media with context %}
+{% block title %}{{ t('cart') }}{% endblock %}
+{% block body %}
+{{ page_head(t('cart')) }}
+<div class="wrap sec">
+  {% if not lines %}
+    <p class="muted">{{ t('cart_empty') }}</p><a class="btn" href="{{ url_for('shop.catalog') }}">{{ icon('leaf', 18) }} {{ t('shop') }}</a>
+  {% else %}
+  <div class="cart-layout">
+    <div class="cart-list">
+      {% if free %}<div class="progress">{% if free.left > 0 %}{{ t('free_left', m=money(free.left)) }}{% else %}{{ t('free_ok') }}{% endif %}<div class="bar-o"><div class="bar-i" style="width:{{ free.pct }}%"></div></div></div>{% endif %}
+      {% for l in lines %}
+      <div class="cart-row">
+        <a class="thumb" href="{{ url_for('shop.product', pid=l.p.id) }}">{{ media(l.p, l.img) }}</a>
+        <div class="grow">
+          <a class="card-name" href="{{ url_for('shop.product', pid=l.p.id) }}">{{ pname(l.p) }}</a>
+          <div class="muted">{{ money(l.unit) }} {% if l.ws %}<span class="tag inline">{{ t('ws_applied') }}</span>{% endif %}</div>
+          <form method="post" action="{{ url_for('shop.cart_qty', pid=l.p.id) }}" class="qty-form">
+            <input type="hidden" name="_csrf" value="{{ csrf() }}">
+            <input type="number" name="qty" value="{{ l.qty }}" min="1" max="{{ l.p.stock }}" onchange="this.form.submit()">
+          </form>
+        </div>
+        <b>{{ money(l.sum) }}</b>
+        <form method="post" action="{{ url_for('shop.cart_del', pid=l.p.id) }}"><input type="hidden" name="_csrf" value="{{ csrf() }}"><button class="x" aria-label="{{ t('remove') }}">{{ icon('x', 15) }}</button></form>
+      </div>
+      {% endfor %}
+      {% if tot.gift %}<div class="cart-row gift"><span class="thumb" style="display:grid;place-items:center;color:var(--gold)">{{ icon('gift', 30) }}</span><div class="grow"><b>{{ pname(tot.gift) }}</b><div class="muted">{{ t('gift') }}</div></div><b>{{ t('free') }}</b></div>{% endif %}
+    </div>
+    <aside class="summary">
+      <form method="post" action="{{ url_for('shop.cart_coupon') }}" class="coupon">
+        <input type="hidden" name="_csrf" value="{{ csrf() }}">
+        <input name="code" placeholder="{{ t('coupon') }}" value="{{ tot.cp.code if tot.cp }}">
+        <button class="btn btn-sm">{{ t('apply') }}</button>
+      </form>
+      {% if tot.cp %}<form method="post" action="{{ url_for('shop.cart_coupon_del') }}"><input type="hidden" name="_csrf" value="{{ csrf() }}"><button class="link row-i">{{ icon('x', 13) }} {{ t('remove') }} {{ tot.cp.code }}</button></form>{% endif %}
+      <div class="row"><span>{{ t('subtotal') }}</span><b>{{ money(tot.sub) }}</b></div>
+      {% if tot.disc %}<div class="row ok"><span>{{ t('discount') }}</span><b>− {{ money(tot.disc) }}</b></div>{% endif %}
+      <div class="row muted"><span>{{ t('shipping') }}</span><span>—</span></div>
+      <div class="row total"><span>{{ t('total') }}</span><b>{{ money(tot.sub - tot.disc) }}</b></div>
+      <a class="btn btn-lg block" href="{{ url_for('shop.checkout') }}">{{ t('checkout') }} {{ icon('arrow', 18) }}</a>
+    </aside>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

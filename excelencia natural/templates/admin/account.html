@@ -1,0 +1,9 @@
+{% extends 'admin/base.html' %}
+{% block h1 %}Mi cuenta{% endblock %}
+{% block body %}
+<form method="post" class="form-card"><input type="hidden" name="_csrf" value="{{ csrf() }}">
+  <p>Sesión: <b>{{ me.email }}</b></p>
+  <label>Contraseña actual<input type="password" name="old" required></label>
+  <label>Contraseña nueva<input type="password" name="new" minlength="6" required></label>
+  <button class="btn">Cambiar contraseña</button></form>
+{% endblock %}

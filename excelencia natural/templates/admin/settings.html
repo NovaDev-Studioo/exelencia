@@ -1,0 +1,21 @@
+{% extends 'admin/base.html' %}
+{% block h1 %}Ajustes de la tienda{% endblock %}
+{% block body %}
+<form method="post" class="form-card wide">
+  <input type="hidden" name="_csrf" value="{{ csrf() }}">
+  <div class="fields">
+    <label>Nombre de la tienda<input name="store_name" value="{{ S.store_name }}"></label>
+    <label>Slogan<input name="slogan" value="{{ S.slogan }}"></label>
+    <label>Correo de contacto<input name="email" value="{{ S.email }}"></label>
+    <label>WhatsApp de la tienda<input name="whatsapp" value="{{ S.whatsapp }}"></label>
+    <label>WhatsApp que recibe avisos de pedidos<input name="admin_wa" value="{{ S.admin_wa }}"></label>
+    <label>Tipo de cambio (1 USD = ? MXN)<input type="number" step="0.01" name="usd_rate" value="{{ S.usd_rate }}"></label>
+    <label class="full">Dirección de la tienda<input name="address" value="{{ S.address }}"></label>
+    <label class="full">Horario<input name="hours" value="{{ S.hours }}"></label>
+    <label>Instagram (enlace)<input name="instagram" value="{{ S.instagram }}"></label>
+    <label>Facebook (enlace)<input name="facebook" value="{{ S.facebook }}"></label>
+    <label>TikTok (enlace)<input name="tiktok" value="{{ S.tiktok }}"></label>
+  </div>
+  <button class="btn btn-lg">Guardar ajustes</button>
+</form>
+{% endblock %}

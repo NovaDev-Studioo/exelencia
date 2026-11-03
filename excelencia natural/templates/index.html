@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import card, stars with context %}
+{% block title %}{{ t('home') }}{% endblock %}
+{% block body %}
+<section class="hero">
+  <div class="wrap hero-in">
+    <div class="hero-txt">
+      <span class="script">{{ S.slogan }}</span>
+      <h1>{{ t('hero_t') }}</h1>
+      <p class="lead">{{ t('hero_s') }}</p>
+      <div class="cta">
+        <a class="btn btn-lg" href="{{ url_for('shop.catalog') }}">{{ t('hero_b') }} {{ icon('arrow', 18) }}</a>
+        <a class="btn btn-ghost" href="{{ url_for('shop.catalog', ws=1) }}">{{ icon('package', 18) }} {{ t('hero_b2') }}</a>
+      </div>
+      <div class="mini-trust">
+        <span>{{ icon('shield', 18) }} {{ t('secure') }}</span>
+        <span>{{ icon('truck', 18) }} {{ t('why2') }}</span>
+        <span>{{ icon('store', 18) }} {{ t('pickup') }}</span>
+      </div>
+    </div>
+    <div class="hero-art">
+      {{ hero_art() }}
+      <div class="float-badge fb1">{{ icon('leaf', 22) }}<div>{{ t('why1') }}<small>100% natural</small></div></div>
+      <div class="float-badge fb2">{{ icon('truck', 22) }}<div>{{ t('why2') }}<small>México · World</small></div></div>
+    </div>
+  </div>
+  <div class="hero-wave"></div>
+</section>
+
+<section class="wrap values">
+  <div class="value reveal"><span class="oval">{{ icon('leaf', 24) }}</span><div><h3>{{ t('why1') }}</h3><p>{{ t('why1d') }}</p></div></div>
+  <div class="value reveal"><span class="oval">{{ icon('truck', 24) }}</span><div><h3>{{ t('why2') }}</h3><p>{{ t('why2d') }}</p></div></div>
+  <div class="value reveal"><span class="oval">{{ icon('shield', 24) }}</span><div><h3>{{ t('secure') }}</h3><p>{{ t('secure_d') }}</p></div></div>
+  <div class="value reveal"><span class="oval">{{ icon('whatsapp', 24) }}</span><div><h3>{{ t('why3') }}</h3><p>{{ t('why3d') }}</p></div></div>
+</section>
+
+{% if cats %}
+<section class="wrap sec">
+  <div class="sec-head"><h2>{{ t('cats_t') }}</h2>{{ divider() }}</div>
+  <div class="tiles">
+    {% for c in cats %}
+    <a class="tile reveal" href="{{ url_for('shop.catalog', cat=c.id) }}">
+      <span class="oval">{{ icon(c.icon, 30) }}</span>
+      <b>{{ c.name_en if lang=='en' and c.name_en else c.name }}</b><span>{{ t('n_prods', n=c.n) }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="wrap sec">
+  <div class="sec-head left"><div><h2>{{ t('featured') }}</h2></div><a class="row-i" href="{{ url_for('shop.catalog') }}">{{ t('see_all') }} {{ icon('arrow', 16) }}</a></div>
+  <div class="grid">{% for p in feat %}{{ card(p) }}{% else %}<p class="muted">{{ t('none') }}</p>{% endfor %}</div>
+</section>
+
+<section class="wrap sec">
+  <div class="band reveal">
+    <div>
+      <span class="script" style="color:var(--gold2);font-size:1.5rem">{{ t('wholesale') }}</span>
+      <h2>{{ t('ws_t') }}</h2>
+      <p>{{ t('ws_d') }}</p>
+      <a class="btn" href="{{ url_for('shop.catalog', ws=1) }}">{{ t('ws_b') }} {{ icon('arrow', 18) }}</a>
+    </div>
+    {{ sprig(300, 230, 11, True, ['#a9d35e', '#8dc34a', '#cfe27a']) }}
+  </div>
+</section>
+
+<section class="wrap sec">
+  <div class="sec-head"><h2>{{ t('how_t') }}</h2><p>{{ t('how_s') }}</p>{{ divider() }}</div>
+  <div class="steps">
+    {% for ic, k in (('search','h1'),('user','h2'),('card','h3'),('package','h4')) %}
+    <div class="step reveal"><div class="num">{{ icon(ic, 26) }}<i>{{ loop.index }}</i></div><h3>{{ t(k) }}</h3><p>{{ t(k ~ 'd') }}</p></div>
+    {% endfor %}
+  </div>
+</section>
+
+{% if revs %}
+<section class="wrap sec">
+  <div class="sec-head"><h2>{{ t('rev_t') }}</h2>{{ divider() }}</div>
+  <div class="testi">
+    {% for r in revs %}
+    <div class="quote reveal">{{ icon('quote', 30) }}{{ stars(r.stars) }}<p>“{{ r.body }}”</p><b>{{ r.uname.split()[0] }}</b> <a class="small" href="{{ url_for('shop.product', pid=r.pid) }}">· {{ r.pname }}</a></div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if posts %}
+<section class="wrap sec">
+  <div class="sec-head left"><div><h2>{{ t('latest') }}</h2></div><a class="row-i" href="{{ url_for('shop.blog') }}">{{ t('read_more') }} {{ icon('arrow', 16) }}</a></div>
+  <div class="grid grid-3">
+    {% for po in posts %}
+    <article class="post-mini reveal">
+      {% if po.image %}<img src="{{ url_for('static', filename='uploads/' ~ po.image) }}" alt="" loading="lazy">{% endif %}
+      <h3>{{ po.title }}</h3><p>{{ po.body[:120] }}{{ '…' if po.body|length > 120 }}</p>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="wrap sec">
+  <div class="visit reveal">
+    <div class="visit-t">
+      <span class="script" style="font-size:1.5rem">{{ S.store_name }}</span>
+      <h2>{{ t('visit_t') }}</h2>
+      <p class="muted">{{ t('visit_d') }}</p>
+      <ul>
+        <li>{{ icon('pin', 20) }}<span>{{ S.address }}</span></li>
+        <li>{{ icon('clock', 20) }}<span>{{ S.hours }}</span></li>
+        <li>{{ icon('phone', 20) }}<span>{{ S.whatsapp }}</span></li>
+      </ul>
+      <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query={{ S.address|urlencode }}">{{ icon('pin', 18) }} {{ t('dir') }}</a>
+      <a class="btn btn-wa" target="_blank" rel="noopener" href="{{ wa_link(S.whatsapp, 'Hola') }}">{{ icon('whatsapp', 18) }} WhatsApp</a>
+    </div>
+    <iframe loading="lazy" title="map" src="https://www.google.com/maps?q={{ S.address|urlencode }}&output=embed"></iframe>
+  </div>
+</section>
+{% endblock %}

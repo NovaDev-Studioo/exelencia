@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import page_head with context %}
+{% block title %}{{ t('blog') }}{% endblock %}
+{% block body %}
+{{ page_head(t('blog'), t('blog_sub')) }}
+<div class="wrap sec narrow">
+  {% for po in posts %}
+  <article class="post reveal">
+    <div class="post-head"><img src="{{ url_for('static', filename='img/Logo.png') }}" alt=""><div><b>{{ S.store_name }}</b><div class="muted small">{{ po.created|fdate }}</div></div></div>
+    <h3>{{ po.title }}</h3>
+    <p>{{ po.body }}</p>
+    {% if po.image %}<img class="post-img" src="{{ url_for('static', filename='uploads/' ~ po.image) }}" alt="" loading="lazy">{% endif %}
+    <button class="like {{ 'on' if po.id in mine }}" data-like="{{ po.id }}">{{ icon('heart', 17) }} <span>{{ po.likes }}</span></button>
+  </article>
+  {% else %}<p class="muted">—</p>{% endfor %}
+</div>
+{% endblock %}

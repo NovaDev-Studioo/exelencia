@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import page_head with context %}
+{% block title %}{{ t('order') }} {{ o.code }}{% endblock %}
+{% block body %}
+{{ page_head(t('order') ~ ' ' ~ o.code) }}
+<div class="wrap sec narrow">
+  <div class="form-card">
+    {% set steps = [('pendiente','clock'),('pagado','card'),('preparando','box'),('enviado','truck'),('entregado','check')] %}
+    {% set idx = ['pendiente','pagado','preparando','enviado','entregado'].index(o.status) if o.status in ['pendiente','pagado','preparando','enviado','entregado'] else -1 %}
+    {% if o.status != 'cancelado' %}<div class="timeline">{% for k, ic in steps %}<div class="tl {{ 'done' if loop.index0 <= idx }} {{ 'now' if loop.index0 == idx }}"><span>{{ icon(ic, 20) }}</span>{{ t('st_' ~ k) }}</div>{% endfor %}</div>{% endif %}
+    <p><span class="st st-{{ o.status }}">{{ o.status }}</span> <span class="muted small">{{ o.created|fdate }}</span></p>
+    {% if o.pay_status != 'pagado' and o.status != 'cancelado' %}<a class="btn" href="{{ url_for('pay.pay_page', code=o.code) }}">{{ t('pay') }} {{ icon('arrow', 18) }}</a>{% endif %}
+    {% if o.tracking %}<p class="row-i">{{ icon('package', 18) }} {{ t('tracking') }} ({{ o.carrier }}): <b>{{ o.tracking }}</b></p>{% endif %}
+    <hr>
+    {% for i in items %}<div class="row small"><span>{{ i.qty }} × {{ i.name }}{% if i.ws %} <span class="tag inline">{{ t('wholesale') }}</span>{% endif %}</span><span>{{ money(i.price * i.qty, o.currency) if i.price else t('free') }}</span></div>{% endfor %}
+    <hr>
+    <div class="row"><span>{{ t('subtotal') }}</span><b>{{ money(o.subtotal, o.currency) }}</b></div>
+    {% if o.discount %}<div class="row ok"><span>{{ t('discount') }} {{ o.coupon }}</span><b>− {{ money(o.discount, o.currency) }}</b></div>{% endif %}
+    <div class="row"><span>{{ t('shipping') }}</span><b>{{ money(o.shipping, o.currency) if o.shipping else t('free') }}</b></div>
+    <div class="row total"><span>{{ t('total') }}</span><b>{{ money(o.total, o.currency) }}</b></div>
+    <p class="muted small">{{ o.zone }}{% if o.delivery == 'envio' %} · {{ o.name }}, {{ o.addr }}, {{ o.city }}, {{ o.state }} {{ o.zip }}, {{ o.country }}{% else %} · {{ S.address }}{% endif %}</p>
+  </div>
+</div>
+{% endblock %}

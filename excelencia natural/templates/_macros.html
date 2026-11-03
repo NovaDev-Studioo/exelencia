@@ -1,0 +1,30 @@
+{% macro stars(n) %}{% set r = (n or 0)|round|int %}<span class="stars" aria-label="{{ n }}/5">{% for i in range(1,6) %}<i class="{{ 'on' if i <= r else '' }}">{{ icon('star', 16) }}</i>{% endfor %}</span>{% endmacro %}
+
+{# imagen del producto o ilustracion botanica si no tiene foto #}
+{% macro media(p, im, alt='') %}{% if im %}<img src="{{ url_for('static', filename='uploads/' ~ im) }}" alt="{{ alt }}" loading="lazy">{% else %}{{ product_ph(cat_icon(p.cat_id)) }}{% endif %}{% endmacro %}
+
+{% macro page_head(title, sub='') %}
+<section class="page-hero">
+  <div class="wrap"><h1>{{ title }}</h1>{% if sub %}<p>{{ sub }}</p>{% endif %}</div>
+  {{ sprig(220, 170, 7) }}
+</section>
+{% endmacro %}
+
+{% macro card(p) %}
+{% set im = img_of(p.id) %}
+<article class="card reveal">
+  <a class="card-img" href="{{ url_for('shop.product', pid=p.id) }}" aria-label="{{ pname(p) }}">
+    {{ media(p, im, pname(p)) }}
+    {% if p.stock < 1 %}<span class="tag tag-out">{{ t('out') }}</span>
+    {% elif ws_price(p) %}<span class="tag">{{ icon('package', 13) }} {{ t('wholesale') }}</span>{% endif %}
+  </a>
+  <button class="heart" data-fav="{{ p.id }}" title="{{ t('wishlist') }}" aria-label="{{ t('wishlist') }}">{{ icon('heart', 18) }}</button>
+  <div class="card-body">
+    {% if p.cat_id %}<span class="card-cat">{{ cat_name(p.cat_id) }}</span>{% endif %}
+    <a class="card-name" href="{{ url_for('shop.product', pid=p.id) }}">{{ pname(p) }}</a>
+    <div class="price">{{ money(unit_price(p)) }}</div>
+    {% if p.stock > 0 %}<button class="btn btn-sm add" data-add="{{ p.id }}">{{ icon('cart', 16) }} {{ t('add') }}</button>
+    {% else %}<button class="btn btn-sm" disabled>{{ t('out') }}</button>{% endif %}
+  </div>
+</article>
+{% endmacro %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% from '_macros.html' import page_head with context %}
+{% block title %}{{ t('contact') }}{% endblock %}
+{% block body %}
+{{ page_head(t('contact'), t('visit_d')) }}
+<div class="wrap sec">
+  <div class="cart-layout">
+    <form method="post" class="form-card">
+      <h3>{{ t('write_us') }}</h3>
+      <input type="hidden" name="_csrf" value="{{ csrf() }}">
+      <label>{{ t('name') }}<input name="name" required></label>
+      <label>{{ t('email') }}<input type="email" name="email" required></label>
+      <label>{{ t('msg') }}<textarea name="body" rows="5" required></textarea></label>
+      <button class="btn">{{ icon('mail', 17) }} {{ t('send') }}</button>
+      <a class="btn btn-wa" href="{{ wa_link(S.whatsapp, 'Hola') }}" target="_blank" rel="noopener">{{ icon('whatsapp', 18) }} WhatsApp {{ S.whatsapp }}</a>
+    </form>
+    <div>
+      <div class="info-card">
+        <div>{{ icon('pin', 22) }}<span><b>{{ t('visit') }}</b><br>{{ S.address }}</span></div>
+        <div>{{ icon('clock', 22) }}<span><b>{{ t('hours') }}</b><br>{{ S.hours }}</span></div>
+      </div>
+      <iframe class="map" loading="lazy" title="map" src="https://www.google.com/maps?q={{ S.address|urlencode }}&output=embed"></iframe>
+    </div>
+  </div>
+</div>
+{% endblock %}

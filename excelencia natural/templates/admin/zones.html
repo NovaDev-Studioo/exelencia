@@ -1,0 +1,26 @@
+{% extends 'admin/base.html' %}
+{% block h1 %}Envíos por zona{% endblock %}
+{% block body %}
+<p class="muted">El sistema elige la zona según el estado del cliente. Una zona con estados vacíos aplica al "resto de México". Los precios en USD en 0 se calculan con el tipo de cambio.</p>
+{% macro zform(z) %}
+<form method="post" class="form-card wide zone">
+  <input type="hidden" name="_csrf" value="{{ csrf() }}"><input type="hidden" name="id" value="{{ z.id if z }}">
+  <div class="fields three">
+    <label>Nombre<input name="name" value="{{ z.name if z }}" required></label>
+    <label>País<select name="country"><option value="MX" {{ 'selected' if z and z.country=='MX' }}>México</option><option value="EX" {{ 'selected' if z and z.country=='EX' }}>Extranjero</option></select></label>
+    <label>Paquetería<input name="carrier" value="{{ z.carrier if z }}"></label>
+    <label class="full">Estados <small>(separados por coma; vacío = resto)</small><input name="states" value="{{ z.states if z }}"></label>
+    <label>Costo MXN<input type="number" step="0.01" min="0" name="price_mxn" value="{{ z.price_mxn if z else 0 }}"></label>
+    <label>Costo USD<input type="number" step="0.01" min="0" name="price_usd" value="{{ z.price_usd if z else 0 }}"></label>
+    <label>Gratis desde (MXN, 0 = nunca)<input type="number" min="0" name="free_from" value="{{ z.free_from|int if z else 0 }}"></label>
+    <label>Tiempo de entrega<input name="days" value="{{ z.days if z }}" placeholder="3 a 5 días"></label>
+    <label class="chk"><input type="checkbox" name="active" {{ 'checked' if not z or z.active }}> Activa</label>
+  </div>
+  <div class="bar"><button class="btn btn-sm">{{ 'Guardar' if z else 'Crear zona' }}</button>
+  {% if z %}<button class="btn btn-sm btn-danger" formaction="{{ url_for('admin.zone_del', zid=z.id) }}" onclick="return confirm('¿Borrar zona?')">Borrar</button>{% endif %}</div>
+</form>
+{% endmacro %}
+{% for z in rows %}{{ zform(z) }}{% endfor %}
+<h3>Agregar zona nueva</h3>
+{{ zform(none) }}
+{% endblock %}
