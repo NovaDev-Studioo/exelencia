@@ -1,5 +1,0 @@
-{% extends 'admin/base.html' %}
-{% block h1 %}Mensajes de contacto{% endblock %}
-{% block body %}
-{% for m in rows %}<div class="form-card wide"><b>{{ m.name }}</b> · <a href="mailto:{{ m.email }}">{{ m.email }}</a> <span class="muted small">{{ m.created|fdate }}</span><p>{{ m.body }}</p></div>{% else %}<p class="muted">No hay mensajes.</p>{% endfor %}
-{% endblock %}

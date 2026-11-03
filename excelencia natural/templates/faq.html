@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-{% from '_macros.html' import page_head with context %}
-{% block title %}{{ t('faq') }}{% endblock %}
-{% block body %}
-{{ page_head(t('faq')) }}
-<div class="wrap sec narrow">
-  {% for qn, an in items %}<details class="faq reveal"><summary>{{ qn }}</summary><p>{{ an }}</p></details>{% endfor %}
-</div>
-{% endblock %}
